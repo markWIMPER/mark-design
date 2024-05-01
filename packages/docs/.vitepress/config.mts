@@ -4,7 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Mark-design",
   description: "Mark-Design",
-  base: "/md-design/",
+  base: "/mark-design/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
