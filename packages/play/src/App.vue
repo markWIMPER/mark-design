@@ -1,9 +1,8 @@
-<script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <md-button>Hello</md-button>
+  111
+  <md-button type="primary" size="small">test</md-button>
 </template>
 
 <style scoped>
