@@ -1,8 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { MdButton } from "mark-design";
+</script>
 
 <template>
-  111
-  <md-button type="primary" size="small">test</md-button>
+  <md-button type="primary" size="small">mark</md-button>
 </template>
 
 <style scoped>

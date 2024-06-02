@@ -1,1 +1,76 @@
 @import "./reset.css";
+
+/* 定义一些全局变量 */
+:root {
+  /* colors */
+  --md-color-white: #ffffff;
+  --md-color-black: #000000;
+  --colors: (
+    primary: #409eff,
+    success: #67c23a,
+    warning: #e6a23c,
+    danger: #f56c6c,
+    info: #909399
+  );
+  --md-bg-color: #ffffff;
+  --md-bg-color-page: #f2f3f5;
+  --md-bg-color-overlay: #ffffff;
+  --md-text-color-primary: #303133;
+  --md-text-color-regular: #606266;
+  --md-text-color-secondary: #909399;
+  --md-text-color-placeholder: #c0c4cc;
+  --md-text-color-disabled: #c0c4cc;
+  --md-border-color: #dcdfe6;
+  --md-border-color-light: #e4e7ed;
+  --md-border-color-lighter: #ebeef5;
+  --md-border-color-extra-light: #ebeef5;
+  --md-border-color-dark: #cdd0d6;
+  --md-border-color-darker: #cdd0d6;
+  --md-fill-color: #f0f2f5;
+  --md-fill-color-light: #f5f7fa;
+  --md-fill-color-lighter: #fafafa;
+  --md-fill-color-extra-light: #fafcff;
+  --md-fill-color-dark: #ebedf0;
+  --md-fill-color-darker: #e6e8eb;
+  --md-fill-color-blank: #ffffff;
+
+  @each $val, $color in var(--colors) {
+    --md-color-$(val): $(color);
+    @for $i from 3 to 9 {
+      --md-color-$(val)-light-$(i): mix(#fff, $(color), 0$ (i));
+    }
+    --md-color-$(val)-dark-2: mix(#000, $(color), 0.2);
+  }
+
+  /* border */
+  --md-border-width: 1px;
+  --md-border-style: solid;
+  --md-border-color-hover: var(--md-text-color-disabled);
+  --md-border: var(--md-border-width) var(--md-border-style)
+    var(--md-border-color);
+  --md-border-radius-base: 4px;
+  --md-border-radius-small: 2px;
+  --md-border-radius-round: 20px;
+  --md-border-radius-circle: 100%;
+
+  /* fonts */
+  --md-font-size-extra-large: 20px;
+  --md-font-size-large: 18px;
+  --md-font-size-medium: 16px;
+  --md-font-size-base: 14px;
+  --md-font-size-small: 13px;
+  --md-font-size-extra-small: 12px;
+  --md-font-family: "Helvetica Neue", Helvetica, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "\5fae\8f6f\96c5\9ed1", Arial,
+    sans-serif;
+  --md-font-weight-primary: 500;
+
+  /* disabled */
+  --md-disabled-bg-color: var(--md-fill-color-light);
+  --md-disabled-text-color: var(--md-text-color-placeholder);
+  --md-disabled-border-color: var(--md-border-color-light);
+
+  /* animation */
+  --md-transition-duration: 0.4s;
+  --md-transition-duration-fast: 0.2s;
+}

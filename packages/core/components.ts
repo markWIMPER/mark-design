@@ -1,4 +1,4 @@
-import { MdButton } from "@mark-design/components";
+import { MdButton, MdIcon } from "@mark-design/components";
 import type { Plugin } from "vue";
 
-export default [MdButton] as Plugin[];
+export default [MdButton, MdIcon] as Plugin[];

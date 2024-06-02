@@ -1,4 +1,4 @@
-import type { Component } from "vue";
+import type { Component, Ref } from "vue";
 
 export type ButtonType =
   | "primary"
@@ -17,9 +17,21 @@ export interface ButtonProps {
   nativeType?: NativeType;
   disabled?: boolean;
   loading?: boolean;
+  loadingIcon?: string;
   // 添加其他属性
   icon?: string;
   circle?: boolean;
   plain?: boolean;
   round?: boolean;
+  /* 节流模式 */
+  useThrottle?: boolean;
+  throttleDuration?: number;
+}
+
+export interface ButtonEmits {
+  (e: "click", value: MouseEvent): void;
+}
+
+export interface ButtonInstance {
+  ref: Ref<HTMLButtonElement | void>;
 }
