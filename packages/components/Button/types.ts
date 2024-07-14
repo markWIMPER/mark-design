@@ -1,4 +1,4 @@
-import type { Component, Ref } from "vue";
+import type { Component, ComputedRef, Ref } from "vue";
 
 export type ButtonType =
   | "primary"
@@ -18,6 +18,7 @@ export interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   loadingIcon?: string;
+  autofocus?: boolean;
   // 添加其他属性
   icon?: string;
   circle?: boolean;
@@ -34,4 +35,19 @@ export interface ButtonEmits {
 
 export interface ButtonInstance {
   ref: Ref<HTMLButtonElement | void>;
+  disabled: ComputedRef<boolean>;
+  size: ComputedRef<string>;
+  type: ComputedRef<string>;
+}
+
+export interface ButtonGroupProps {
+  size?: ButtonSize;
+  type?: ButtonType;
+  disabled?: boolean;
+}
+
+export interface ButtonGroupContext {
+  size?: ButtonSize;
+  type?: ButtonType;
+  disabled?: boolean;
 }
