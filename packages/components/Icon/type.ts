@@ -30,7 +30,7 @@ export interface IconProps {
     | "10x";
   spin?: boolean;
   transform?: object | string;
-  symbol?: boolean | stirng;
+  symbol?: boolean | string;
   title?: string;
   inverse?: boolean;
   bounce?: boolean;
