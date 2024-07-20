@@ -10,9 +10,6 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "dependencies": {
-    "vue": "^3.4.21"
-  },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.5.0",
     "@storybook/addon-essentials": "^8.1.5",

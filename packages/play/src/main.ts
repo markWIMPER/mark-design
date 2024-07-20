@@ -4,4 +4,6 @@ import App from "./App.vue";
 import MarkDesign from "mark-design";
 import "mark-design/dist/index.css";
 
-createApp(App).use(MarkDesign).mount("#app");
+const app = createApp(App);
+app.use(MarkDesign);
+app.mount("#app");

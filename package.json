@@ -16,6 +16,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@release-it/conventional-changelog": "^8.0.1",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^20.11.20",
     "@vitejs/plugin-vue": "^5.0.4",
