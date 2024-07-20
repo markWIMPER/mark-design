@@ -7,5 +7,5 @@ import "@mark-design/theme/index.css";
 library.add(fas);
 const installer = makeInstall(components);
 
-export * from "@mark-design/components";
+export * from "../components";
 export default installer;
