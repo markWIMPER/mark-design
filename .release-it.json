@@ -1,21 +1,16 @@
 {
+  "npm": {
+    "publish": false
+  },
+  "hooks": {
+    "after:bump": "echo 更新版本成功"
+  },
   "plugins": {
     "@release-it/conventional-changelog": {
-      "preset": "angular",
+      "preset": {
+        "name": "vue"
+      },
       "infile": "CHANGELOG.md"
     }
-  },
-  "git": {
-    "requireCleanWorkingDir": true,
-    "commit": true,
-    "commitMessage": "chore: release ${version}",
-    "tag": true,
-    "tagName": "v${version}",
-    "push": true,
-    "pushRepo": "origin"
-  },
-  "github": {
-    "release": true,
-    "releaseName": "v${version}"
   }
 }
