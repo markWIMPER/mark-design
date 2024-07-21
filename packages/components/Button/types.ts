@@ -24,6 +24,7 @@ export interface ButtonProps {
   circle?: boolean;
   plain?: boolean;
   round?: boolean;
+  isShow?: boolean;
   /* 节流模式 */
   useThrottle?: boolean;
   throttleDuration?: number;
