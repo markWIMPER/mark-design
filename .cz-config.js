@@ -42,4 +42,5 @@ module.exports = {
   allowCustomScopes: true,
   skipQuestions: ["body", "footer", "breaking"],
   subjectLimit: 100,
+  subjectPerfix: "[VERSION]",
 };
