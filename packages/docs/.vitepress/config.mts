@@ -5,7 +5,7 @@ import { nav, sidebar } from "../src/menu";
 export default defineConfig({
   title: "Mark-Design",
   description: "Mark-Design",
-  base: "/mark-design/src",
+  base: "/mark-design",
   themeConfig: {
     logo: "/logo.png",
     // https://vitepress.dev/reference/default-theme-config
