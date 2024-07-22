@@ -1,0 +1,78 @@
+:root {
+  --vp-c-brand-1: #050300;
+  --vp-c-brand-2: #847444;
+  --vp-c-brand-3: #fbe187;
+
+  --vp-button-brand-text: #050300;
+
+  --vp-home-hero-image-background-image: linear-gradient(
+    135deg,
+    #050300,
+    50%,
+    #fbe187 90%
+  );
+  --vp-home-hero-image-filter: blur(100px);
+
+  /* features */
+  --vp-c-text-1: #aa9754;
+  /* --vp-c-bg-soft: #050300; */
+}
+
+.dark {
+  --vp-c-brand-1: #fbe187;
+  --vp-c-brand-2: #b6a35d;
+  --vp-c-brand-3: #050300;
+
+  --vp-button-brand-text: #fbe187;
+
+  --vp-home-hero-image-background-image: linear-gradient(
+    135deg,
+    #fbe187 100%,
+    #050300 50%
+  );
+
+  /* features */
+  --vp-c-text-1: #fddf7d;
+  /* --vp-c-bg-soft: #050300; */
+}
+
+.vp-doc a {
+  text-decoration: none;
+}
+
+/* .vitepress\theme\style\var.css */
+/* 引用块 */
+.vp-doc blockquote {
+  border-radius: 5px;
+  padding: 10px 16px;
+  background-color: var(--vp-badge-danger-bg);
+  position: relative;
+  border-left: 4px solid #e95f59;
+}
+
+/* 代码块tab */
+.vp-code-group .tabs {
+  padding-top: 30px;
+}
+
+/* 代码块tab-顶部小圆点 */
+.vp-code-group .tabs::before {
+  background: #fc625d;
+  border-radius: 50%;
+  box-shadow:
+    20px 0 #fdbc40,
+    40px 0 #35cd4b;
+  content: " ";
+  height: 12px;
+  width: 12px;
+  left: 12px;
+  margin-top: -20px;
+  position: absolute;
+}
+
+/* 代码组 */
+.vp-code-group {
+  color: var(--vp-c-black-soft);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px 0 rgb(0 0 0 / 40%);
+}

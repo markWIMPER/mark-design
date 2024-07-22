@@ -1,29 +1,19 @@
 import { defineConfig } from "vitepress";
+import { nav, sidebar } from "../src/menu";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Mark-design",
+  title: "Mark-Design",
   description: "Mark-Design",
-  base: "/mark-design/",
+  base: "/mark-design/src",
   themeConfig: {
+    logo: "/logo.png",
     // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: "Home", link: "/" },
-      { text: "Examples", link: "/markdown-examples" },
-    ],
-
-    sidebar: [
-      {
-        text: "Examples",
-        items: [
-          { text: "Markdown Examples", link: "/markdown-examples" },
-          { text: "Runtime API Examples", link: "/api-examples" },
-        ],
-      },
-    ],
+    nav: nav,
+    sidebar,
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
+      { icon: "github", link: "https://github.com/markWIMPER/mark-design" },
     ],
   },
 });
