@@ -10,7 +10,7 @@ defineOptions({
 
 const props = defineProps<CollapseItemProps>();
 const ctx = inject(COLLAPSE_CTX_KEY, void 0);
-const isActive = computed(() => ctx?.activeNames.value?.includes(props.name));
+const isActive = computed(() => ctx?.activeNames?.value?.includes(props.name));
 
 function handleClick() {
   if (props.disabled) return;
@@ -51,3 +51,7 @@ function handleClick() {
     <!-- </transition> -->
   </div>
 </template>
+
+<style scoped>
+@import "./style.css";
+</style>

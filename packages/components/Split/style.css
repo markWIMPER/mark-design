@@ -1,0 +1,20 @@
+.split-item {
+  position: absolute;
+  background: #fff;
+}
+
+.split-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.split-dash {
+  position: absolute;
+  background: transparent;
+  border-top: 1px splid tomato;
+}
+
+.split-dash {
+  outline: 1px solid #efefef;
+}

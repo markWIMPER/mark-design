@@ -9,8 +9,7 @@ defineOptions({
 
 const props = defineProps<CollapseProps>();
 const emits = defineEmits<CollapseEmits>();
-
-const activeNames = ref(props.modelValue);
+const activeNames = ref<CollapseItemName[]>(props.modelValue);
 
 if (props.accordion && activeNames.value.length > 1) {
   console.warn("accordion mode should only have one active item!");
@@ -56,3 +55,7 @@ provide(COLLAPSE_CTX_KEY, {
     <slot></slot>
   </div>
 </template>
+
+<style scoped>
+@import "./style.css";
+</style>
