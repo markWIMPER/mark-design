@@ -16,6 +16,14 @@ const splitItemRef = ref<HTMLElement>();
 
 const ctx = inject(SPLIT_ULTRA_CTX_KEY, void 0);
 
+const mode = computed(() => {
+  if (ctx?.direction == "vertical") {
+    return "currentHeight";
+  } else {
+    return "currentWidth";
+  }
+});
+
 const emits = defineEmits<ISplitItemEmits>();
 
 const props = withDefaults(defineProps<ISplitItemProps>(), {
@@ -131,25 +139,21 @@ watch(
   }
 );
 
-const setCurrentWidth = (width) => {
-  splitItemData.currentWidth = width;
+const setInstance = (value: number) => {
+  splitItemData[mode.value] = value;
 };
 
-const setCurrentHeight = (height) => {
-  debugger;
-  splitItemData.currentHeight = height;
-};
+const getInstance = () => splitItemData[mode.value];
 
 onMounted(async () => {
   await nextTick();
   splitItemData.index = ctx?.items.length || 0;
 
   ctx?.registryItem({
+    initialValue: ctx?.direction === "horizontal" ? props.width : props.height,
     index: splitItemData.index,
-    getCurrentWidth: () => splitItemData.currentWidth,
-    setCurrentWidth,
-    getCurrentHeight: () => splitItemData.currentHeight,
-    setCurrentHeight,
+    setInstance,
+    getInstance,
   });
 });
 // 初始化

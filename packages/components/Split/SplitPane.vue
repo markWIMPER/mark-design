@@ -74,7 +74,7 @@ const getLeft = (index) => {
   let width = 0;
   splitData.items.forEach((ele) => {
     if (ele.index < index) {
-      width += ele.getCurrentWidth();
+      width += ele.getInstance();
     }
   });
   return width;
@@ -83,8 +83,8 @@ const getLeft = (index) => {
 const getTop = (index) => {
   let height = 0;
   splitData.items.forEach((ele) => {
-    if (ele.index < index) height += ele.getCurrentHeight();
-    console.log("ele", ele.getCurrentHeight());
+    if (ele.index < index) height += ele.getInstance();
+    console.log("ele", ele.getInstance());
   });
   return height;
 };
@@ -100,8 +100,8 @@ const initItem = () => {
     //如果item设置了width，则根据width计算出来它的currentWidth
     splitData.readyToAllocationWidth = splitData.clientWidth;
     splitData.items.forEach((ele) => {
-      if (ele.width) {
-        let currentWidth = ele.getCurrentWidth();
+      if (ele.initialValue) {
+        let currentWidth = ele.getInstance();
         if (isString(currentWidth)) {
           currentWidth = Number(currentWidth);
         }
@@ -110,8 +110,8 @@ const initItem = () => {
           currentWidth = splitData.clientWidth * currentWidth;
         }
         // ele.currentWidth = currentWidth;
-        ele.setCurrentWidth(currentWidth);
-        splitData.readyToAllocationWidth -= ele.getCurrentWidth();
+        ele.setInstance(currentWidth);
+        splitData.readyToAllocationWidth -= ele.getInstance();
       } else {
         //若没有，平均：总宽度减去已经设置过宽度的
         splitData.readyToAllocationItemLength += 1;
@@ -119,8 +119,8 @@ const initItem = () => {
     });
 
     splitData.items.forEach((ele) => {
-      if (!ele.width) {
-        ele.setCurrentWidth(
+      if (!ele.initialValue) {
+        ele.setInstance(
           splitData.readyToAllocationWidth /
             splitData.readyToAllocationItemLength
         );
@@ -132,15 +132,15 @@ const initItem = () => {
     splitData.readyToAllocationHeight = splitData.clientHeight;
     splitData.items.forEach((ele) => {
       if (ele.height) {
-        let currentHegiht = ele.getCurrentHeight();
+        let currentHegiht = ele.getInstance();
         if (isString(currentHegiht)) {
           currentHegiht = Number(currentHegiht);
         }
         if (currentHegiht < 1) {
           currentHegiht = splitData.clientHeight * currentHegiht;
         }
-        ele.setCurrentHeight(currentHegiht);
-        splitData.readyToAllocationHeight -= ele.getCurrentHeight();
+        ele.setInstance(currentHegiht);
+        splitData.readyToAllocationHeight -= ele.getInstance();
       } else {
         //若没有，平均：总宽度减去已经设置过宽度的
         splitData.readyToAllocationItemLength += 1;
@@ -148,7 +148,7 @@ const initItem = () => {
     });
     splitData.items.forEach((ele) => {
       if (!ele.height) {
-        ele.setCurrentHeight(
+        ele.setInstance(
           splitData.readyToAllocationHeight /
             splitData.readyToAllocationItemLength
         );

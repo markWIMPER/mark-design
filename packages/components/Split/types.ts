@@ -1,3 +1,5 @@
+export type SplitMode = "horizontal" | "vertical";
+
 export interface ISplitProps {
   direction: "horizontal" | "vertical";
 }
@@ -13,7 +15,12 @@ export interface ISplitItemEmits {
   (e: "on-change", value: { height: number; width: number }): void;
 }
 
-export type SplitDataItem = HTMLElement;
+export interface SplitDataItem {
+  initialValue: number | string;
+  index: number;
+  getInstance(): number;
+  setInstance(value: number): void;
+}
 
 export interface ISplistData {
   items: Array<SplitDataItem>;
