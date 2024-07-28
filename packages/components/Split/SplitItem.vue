@@ -28,7 +28,7 @@ const emits = defineEmits<ISplitItemEmits>();
 
 const props = withDefaults(defineProps<ISplitItemProps>(), {
   min: 0,
-  max: 0,
+  // max: 0,
   width: 0,
   height: 0,
 });
@@ -66,26 +66,13 @@ const minSize = computed(() => {
   return min;
 });
 
-const maxSize = computed(() => {
-  let max = props.max;
-  if (isString(max)) {
-    max = Number(max);
-  }
-  if (max < 1) {
-    if (ctx?.direction == "horizontal") {
-      max = ctx?.splitData.clientWidth * max;
-    }
-    if (ctx?.direction == "vertical") {
-      max = ctx?.splitData.clientHeight * max;
-    }
-  }
-  return max;
-});
-
+// 当前元素距离最左侧的距离
 const left = computed(() => ctx?.getLeft(splitItemData.index));
 
+// 当前元素距离顶部的距离
 const top = computed(() => ctx?.getTop(splitItemData.index));
 
+// 分割线
 const getStyle = computed(() => {
   if (ctx?.direction == "horizontal") {
     return {
@@ -140,12 +127,10 @@ onMounted(async () => {
     getInstance,
     setChange,
     minSize,
-    maxSize,
     cWidth,
     cHeight,
   });
 });
-// 初始化
 </script>
 
 <template>

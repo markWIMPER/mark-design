@@ -43,20 +43,20 @@ export const useMouseEvent = (splitData: ISplistData, mode: SplitMode) => {
 
     const firstSize = firstItem.getInstance() + splitData.currentChange;
     const firMinSize = firstItem.minSize as number;
-    const firMaxSize = firstItem.maxSize as number;
+    // const firMaxSize = firstItem.maxSize as number;
     const secondSize = secondItem.getInstance() - splitData.currentChange;
     const secMinSize = secondItem.minSize as number;
-    const secMaxSize = secondItem.maxSize as number;
+    // const secMaxSize = secondItem.maxSize as number;
 
     if (firMinSize && firstSize < firMinSize) {
       splitData.currentChange = firMinSize - firstItem.getInstance();
-    } else if (firMaxSize && firstSize > firMaxSize) {
+    } /* else if (firMaxSize && firstSize > firMaxSize) {
       splitData.currentChange = firMaxSize - firstItem.getInstance();
-    } else if (secMinSize && secondSize < secMinSize) {
+    } */ else if (secMinSize && secondSize < secMinSize) {
       splitData.currentChange = secondItem.getInstance() - secMinSize;
-    } else if (secMaxSize && secondSize > secMaxSize) {
+    } /* else if (secMaxSize && secondSize > secMaxSize) {
       splitData.currentChange = secondItem.getInstance() - secMaxSize;
-    } else if (firstSize < 10) {
+    } */ else if (firstSize < 10) {
       splitData.currentChange = 10 - firstItem.getInstance();
     } else if (secondSize < 10) {
       splitData.currentChange = secondItem.getInstance() - 10;

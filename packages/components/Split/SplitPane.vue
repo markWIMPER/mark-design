@@ -124,12 +124,25 @@ const initItem = () => {
   //如果item设置了width/height，则根据width/height计算出来它的current
   splitData.readyToAllocation = splitData[mode.value];
   splitData.items.forEach((ele) => {
+    // console.log(ele.minSize);
+    // 如果存在min，且initialValue大于min, 则取min
+    // debugger;
     if (ele.initialValue) {
       let current = ele.initialValue;
       if (isString(current)) {
-        current = Number(current);
+        current =
+          ele.minSize && Number(current) < ele.minSize
+            ? ele.minSize
+            : Number(current);
       }
       // 传入的时比例
+      if (current < 1) {
+        current = splitData[mode.value] * current;
+      }
+      ele.setInstance(current);
+      splitData.readyToAllocation -= ele.getInstance();
+    } else if (ele.minSize) {
+      let current = ele.minSize;
       if (current < 1) {
         current = splitData[mode.value] * current;
       }

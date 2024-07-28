@@ -8,7 +8,7 @@ export interface ISplitProps {
 
 export interface ISplitItemProps {
   min?: number | string;
-  max?: number | string;
+  // max?: number | string;
   width?: number | string;
   height?: number | string;
 }
@@ -23,7 +23,6 @@ export interface SplitDataItem {
   getInstance(): number;
   setInstance(value: number): void;
   setChange(value: number): void;
-  maxSize: number | ComputedRef<number>;
   minSize: number | ComputedRef<number>;
   cWidth: number | ComputedRef<number>;
   cHeight: number | ComputedRef<number>;

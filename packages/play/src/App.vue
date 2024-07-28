@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MdSplit, MdSplitItem } from "mark-design";
-import "mark-design/dist/index.css";
+// import "mark-design/dist/index.css";
 </script>
 
 <template>
