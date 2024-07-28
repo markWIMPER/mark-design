@@ -1,3 +1,5 @@
+import type { ComputedRef } from "vue";
+
 export type SplitMode = "horizontal" | "vertical";
 
 export interface ISplitProps {
@@ -16,21 +18,26 @@ export interface ISplitItemEmits {
 }
 
 export interface SplitDataItem {
-  initialValue: number | string;
   index: number;
+  initialValue: number | string;
   getInstance(): number;
   setInstance(value: number): void;
+  setChange(value: number): void;
+  maxSize: number | ComputedRef<number>;
+  minSize: number | ComputedRef<number>;
+  cWidth: number | ComputedRef<number>;
+  cHeight: number | ComputedRef<number>;
 }
 
 export interface ISplistData {
-  items: Array<SplitDataItem>;
+  items: SplitDataItem[];
   clientWidth: number;
   clientHeight: number;
-  readyToAllocationWidth: number;
-  readyToAllocationHeight: number;
+  readyToAllocation: number;
   readyToAllocationItemLength: number;
   moveIndex: number;
-  currentChange: null;
+  currentChange: number;
+  isDragging: boolean;
 }
 
 export interface ISplitItemData {
@@ -42,13 +49,11 @@ export interface ISplitItemData {
 }
 
 export interface SplitUltraContext {
-  items: SplitDataItem[];
+  splitData: ISplistData;
   direction: "horizontal" | "vertical";
-  clientWidth: number;
-  clientHeight: number;
   registryItem(item: SplitDataItem): void;
   initItem(): void;
+  getCurrentInstance(index: number): number;
   getLeft(index: number): number;
   getTop(index: number): number;
-  handleItemClick(): void;
 }

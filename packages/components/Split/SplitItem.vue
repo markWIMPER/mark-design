@@ -44,50 +44,50 @@ const splitItemData = reactive<ISplitItemData>({
 const cWidth = computed(
   () => splitItemData.currentWidth + splitItemData.currentChange
 );
+
 const cHeight = computed(
   () => splitItemData.currentHeight + splitItemData.currentChange
 );
 
 const minSize = computed(() => {
-  let min = isString(props.min) ? Number(props.min) : props.min;
+  let min = props.min;
+  if (isString(min)) {
+    min = Number(min);
+  }
 
   if (min < 1) {
     if (ctx?.direction == "horizontal") {
-      min = ctx?.clientWidth * min;
+      min = ctx?.splitData.clientWidth * min;
     }
     if (ctx?.direction == "vertical") {
-      min = ctx?.clientHeight * min;
+      min = ctx?.splitData.clientHeight * min;
     }
   }
   return min;
 });
 
 const maxSize = computed(() => {
-  let max = isString(props.max) ? Number(props.max) : props.max;
-
+  let max = props.max;
+  if (isString(max)) {
+    max = Number(max);
+  }
   if (max < 1) {
     if (ctx?.direction == "horizontal") {
-      max = ctx.clientWidth * max;
+      max = ctx?.splitData.clientWidth * max;
     }
     if (ctx?.direction == "vertical") {
-      max = ctx.clientHeight * max;
+      max = ctx?.splitData.clientHeight * max;
     }
   }
   return max;
 });
 
 const left = computed(() => ctx?.getLeft(splitItemData.index));
+
 const top = computed(() => ctx?.getTop(splitItemData.index));
 
 const getStyle = computed(() => {
   if (ctx?.direction == "horizontal") {
-    console.log("style-item:", {
-      left: `${left.value}px`,
-      top: 0,
-      bottom: 0,
-      width: `${cWidth.value}px`,
-    });
-
     return {
       left: `${left.value}px`,
       top: 0,
@@ -119,41 +119,30 @@ watch(
   }
 );
 
-watch(
-  () => cWidth.value,
-  () => {
-    emits("on-change", {
-      height: cHeight.value,
-      width: cWidth.value,
-    });
-  }
-);
-
-watch(
-  () => cHeight.value,
-  () => {
-    emits("on-change", {
-      height: cHeight.value,
-      width: cWidth.value,
-    });
-  }
-);
-
 const setInstance = (value: number) => {
   splitItemData[mode.value] = value;
+};
+
+const setChange = (value: number) => {
+  splitItemData.currentChange = value;
 };
 
 const getInstance = () => splitItemData[mode.value];
 
 onMounted(async () => {
   await nextTick();
-  splitItemData.index = ctx?.items.length || 0;
+  splitItemData.index = ctx?.splitData.items.length || 0;
 
   ctx?.registryItem({
     initialValue: ctx?.direction === "horizontal" ? props.width : props.height,
     index: splitItemData.index,
     setInstance,
     getInstance,
+    setChange,
+    minSize,
+    maxSize,
+    cWidth,
+    cHeight,
   });
 });
 // 初始化

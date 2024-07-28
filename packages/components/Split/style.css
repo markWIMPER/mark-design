@@ -1,9 +1,4 @@
-.split-item {
-  position: absolute;
-  /* background: #fff; */
-}
-
-.split-container {
+.split-pane {
   position: relative;
   width: 100%;
   height: 100%;
@@ -11,10 +6,38 @@
 
 .split-dash {
   position: absolute;
-  background: transparent;
-  border-top: 1px splid tomato;
+  background: #efefef; /* 分割线颜色 */
+  opacity: 0.5;
 }
 
-.split-dash {
-  outline: 1px solid #efefef;
+.split-item {
+  position: absolute;
+}
+
+/* horizontal */
+.split-pane-horizontal .split-dash {
+  width: 1px;
+  transition: width 0.1s linear 0;
+  cursor: col-resize;
+}
+
+.split-pane-horizontal .split-dash:hover,
+.split-pane-horizontal .split-dash.dragging {
+  width: 4px !important;
+  transition: width 0.1s linear 0;
+  opacity: 0.8 !important;
+}
+
+/* vertical */
+.split-pane-vertical .split-dash {
+  height: 1px;
+  transition: height 0.1s linear 0.1s;
+  cursor: row-resize;
+}
+
+.split-pane-vertical .split-dash:hover,
+.split-pane-vertical .split-dash.dragging {
+  height: 4px !important;
+  transition: height 0.1s linear 0.4s;
+  opacity: 0.8 !important;
 }

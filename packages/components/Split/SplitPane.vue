@@ -1,192 +1,190 @@
 <template>
-  <div class="split-container" ref="splitContainerRef">
+  <div
+    class="split-pane"
+    :class="{
+      [`split-pane-${$props.direction}`]: props.direction,
+      dragging: splitData.isDragging,
+    }"
+    ref="splitPaneRef"
+  >
     <slot></slot>
     <!-- 拖动条  -->
-    <div
-      v-for="index in itemLength"
-      :key="index"
-      :style="getDashStyle(index)"
-      class="split-dash"
-    />
+    <template v-for="i in itemLength" :key="i">
+      <div
+        :style="getDashStyle(i)"
+        class="split-dash"
+        @mousedown.stop="handleDown(i, $event)"
+      ></div>
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, ref, provide, onMounted } from "vue";
+import { reactive, computed, ref, provide, onMounted, onUnmounted } from "vue";
 import { isString } from "lodash-es";
+import { useMouseEvent } from "./useMouseEvent";
 import { SPLIT_ULTRA_CTX_KEY } from "./constant";
 import type { ISplistData, SplitDataItem, ISplitProps } from "./types";
 
+const splitPaneRef = ref<HTMLElement>();
 const props = defineProps<ISplitProps>();
-
 const splitData = reactive<ISplistData>({
   items: [],
   clientHeight: 0,
   clientWidth: 0,
-  readyToAllocationWidth: 0,
-  readyToAllocationHeight: 0,
+  readyToAllocation: 0,
   readyToAllocationItemLength: 0,
   moveIndex: -1,
-  currentChange: null,
+  currentChange: 0,
+  isDragging: false,
 });
 
-const splitContainerRef = ref<HTMLElement>();
-
-const itemLength = computed(() => splitData.items.length);
-
-const firstItem = computed(() =>
-  splitData.moveIndex
-    ? splitData.items.find(
-        (item, index) => index == (splitData.moveIndex as number) - 1
-      )
-    : null
+const itemLength = computed(() =>
+  splitData.items.length ? splitData.items.length - 1 : 0
 );
 
-const secondItem = computed(() =>
-  splitData.moveIndex
-    ? splitData.items.find((item, index) => index == splitData.moveIndex)
-    : null
-);
+const mode = computed(() => {
+  if (props.direction == "horizontal") {
+    return "clientWidth";
+  }
+  if (props.direction == "vertical") {
+    return "clientHeight";
+  }
+  return "clientWidth";
+});
+
+const getCurrentInstance = (index: number) => {
+  let currentInstance = 0;
+  splitData.items.forEach((ele) => {
+    if (ele.index < index) {
+      currentInstance += ele.getInstance();
+    }
+  });
+  return currentInstance;
+};
+
+const getLeft = (index: number) => {
+  let width = 0;
+  splitData.items.forEach((element) => {
+    if (element.index < index) {
+      width += element.cWidth;
+    }
+  });
+  return width;
+};
+
+const getTop = (index: number) => {
+  let height = 0;
+  splitData.items.forEach((element) => {
+    if (element.index < index) {
+      height += element.cHeight;
+    }
+  });
+  return height;
+};
 
 const getDashStyle = (index: number) => {
   const base = 4;
   if (props.direction == "horizontal") {
     return {
       left: `${getLeft(index) - base / 2}px`,
-      top: 0,
-      bottom: 0,
-      width: `${base}px`,
+      top: "0",
+      bottom: "0",
+      width:
+        splitData.isDragging && splitData.moveIndex === index
+          ? `${base}px`
+          : "1px",
+      opacity:
+        splitData.isDragging && splitData.moveIndex === index ? "0.8" : "0.5",
     };
   }
   if (props.direction == "vertical") {
     return {
       top: `${getTop(index) - base / 2}px`,
-      left: 0,
-      right: 0,
-      height: `${base}px`,
+      left: "0",
+      right: "0",
+      height:
+        splitData.isDragging && splitData.moveIndex === index
+          ? `${base}px`
+          : "1px",
+      opacity:
+        splitData.isDragging && splitData.moveIndex === index ? "0.8" : "0.5",
     };
   }
-};
-
-const handleItemClick = () => {};
-
-const getLeft = (index) => {
-  let width = 0;
-  splitData.items.forEach((ele) => {
-    if (ele.index < index) {
-      width += ele.getInstance();
-    }
-  });
-  return width;
-};
-
-const getTop = (index) => {
-  let height = 0;
-  splitData.items.forEach((ele) => {
-    if (ele.index < index) height += ele.getInstance();
-    console.log("ele", ele.getInstance());
-  });
-  return height;
 };
 
 const initItem = () => {
   // 初始化宽高
   if (!splitData.clientWidth && !splitData.clientHeight) {
-    splitData.clientWidth = splitContainerRef.value?.clientWidth || 0;
-    splitData.clientHeight = splitContainerRef.value?.clientHeight || 0;
+    splitData.clientWidth = splitPaneRef.value?.clientWidth || 0;
+    splitData.clientHeight = splitPaneRef.value?.clientHeight || 0;
   }
   splitData.readyToAllocationItemLength = 0;
-  if (props.direction == "horizontal") {
-    //如果item设置了width，则根据width计算出来它的currentWidth
-    splitData.readyToAllocationWidth = splitData.clientWidth;
-    splitData.items.forEach((ele) => {
-      if (ele.initialValue) {
-        let currentWidth = ele.getInstance();
-        if (isString(currentWidth)) {
-          currentWidth = Number(currentWidth);
-        }
-        // 传入的时比例
-        if (currentWidth < 1) {
-          currentWidth = splitData.clientWidth * currentWidth;
-        }
-        // ele.currentWidth = currentWidth;
-        ele.setInstance(currentWidth);
-        splitData.readyToAllocationWidth -= ele.getInstance();
-      } else {
-        //若没有，平均：总宽度减去已经设置过宽度的
-        splitData.readyToAllocationItemLength += 1;
-      }
-    });
 
-    splitData.items.forEach((ele) => {
-      if (!ele.initialValue) {
-        ele.setInstance(
-          splitData.readyToAllocationWidth /
-            splitData.readyToAllocationItemLength
-        );
+  //如果item设置了width/height，则根据width/height计算出来它的current
+  splitData.readyToAllocation = splitData[mode.value];
+  splitData.items.forEach((ele) => {
+    if (ele.initialValue) {
+      let current = ele.initialValue;
+      if (isString(current)) {
+        current = Number(current);
       }
-    });
-  }
-  if (props.direction == "vertical") {
-    //
-    splitData.readyToAllocationHeight = splitData.clientHeight;
-    splitData.items.forEach((ele) => {
-      if (ele.height) {
-        let currentHegiht = ele.getInstance();
-        if (isString(currentHegiht)) {
-          currentHegiht = Number(currentHegiht);
-        }
-        if (currentHegiht < 1) {
-          currentHegiht = splitData.clientHeight * currentHegiht;
-        }
-        ele.setInstance(currentHegiht);
-        splitData.readyToAllocationHeight -= ele.getInstance();
-      } else {
-        //若没有，平均：总宽度减去已经设置过宽度的
-        splitData.readyToAllocationItemLength += 1;
+      // 传入的时比例
+      if (current < 1) {
+        current = splitData[mode.value] * current;
       }
-    });
-    splitData.items.forEach((ele) => {
-      if (!ele.height) {
-        ele.setInstance(
-          splitData.readyToAllocationHeight /
-            splitData.readyToAllocationItemLength
-        );
-      }
-    });
-  }
+      ele.setInstance(current);
+      splitData.readyToAllocation -= ele.getInstance();
+    } else {
+      //若没有，平均：总宽度减去已经设置过宽度的
+      splitData.readyToAllocationItemLength += 1;
+    }
+  });
+
+  splitData.items.forEach((ele) => {
+    if (!ele.initialValue) {
+      ele.setInstance(
+        splitData.readyToAllocation / splitData.readyToAllocationItemLength
+      );
+    }
+  });
 };
 
 const resize = () => {
-  splitData.clientWidth = splitContainerRef.value?.clientWidth || 0;
-  splitData.clientHeight == splitContainerRef.value?.clientHeight || 0;
+  splitData.clientWidth = splitPaneRef.value?.clientWidth || 0;
+  splitData.clientHeight == splitPaneRef.value?.clientHeight || 0;
   initItem();
 };
 
 const registryItem = (item: SplitDataItem) => {
   splitData.items.push(item);
-  if (splitData.items.length == splitContainerRef.value?.children?.length) {
+  if (splitData.items.length == splitPaneRef.value?.children?.length) {
     initItem();
   }
 };
 
+const { handleDown } = useMouseEvent(splitData, props.direction);
+
 provide(SPLIT_ULTRA_CTX_KEY, {
-  items: splitData.items,
+  splitData,
   direction: props.direction,
-  clientHeight: splitData.clientHeight,
-  clientWidth: splitData.clientWidth,
   registryItem,
   initItem,
+  getCurrentInstance,
   getLeft,
   getTop,
-  handleItemClick,
 });
 
 onMounted(() => {
-  // console.log(splitContainerRef.value?.children?.length);
+  // resize();
+  window.addEventListener("resize", resize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", resize);
 });
 </script>
 
-<style scoped>
+<style>
 @import "./style.css";
 </style>

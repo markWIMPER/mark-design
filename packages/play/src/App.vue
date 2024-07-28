@@ -4,18 +4,33 @@ import "mark-design/dist/index.css";
 </script>
 
 <template>
-  <md-split direction="horizontal" class="w-full h-full">
-    <md-split-item>3663</md-split-item>
-    <md-split-item>3663</md-split-item>
-    <md-split-item>3663</md-split-item>
-  </md-split>
+  <div class="container">
+    <md-split direction="horizontal">
+      <md-split-item width="300" min="0.2">
+        <div class="card"></div>
+      </md-split-item>
+      <md-split-item min="0.2">
+        <div class="card"></div>
+      </md-split-item>
+      <md-split-item>
+        <div class="card"></div>
+      </md-split-item>
+      <md-split-item>
+        <div class="card"></div>
+      </md-split-item>
+    </md-split>
+  </div>
 </template>
 
 <style scoped>
-.w-full {
+.container {
+  height: 500px;
   width: 100%;
+  background: skyblue;
 }
-.h-full {
+
+.card {
+  width: 100%;
   height: 100%;
 }
 </style>
